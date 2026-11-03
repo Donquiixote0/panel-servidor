@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+  index.html — Estructura de la página del panel.
+
+  Aquí solo va el "esqueleto" (qué elementos hay). El aspecto está en
+  estilos.css y el comportamiento en app.js. Separar estructura, estilo y
+  lógica hace que cada archivo sea más corto y fácil de mantener.
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <!-- Esta línea hace que la página se vea bien en el móvil (sin zoom raro). -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel del servidor</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header class="cabecera">
+    <div>
+      <h1>Panel del servidor</h1>
+      <!-- El nombre del equipo se rellena desde app.js con el dato de la API. -->
+      <p class="subtitulo" id="hostname">Cargando…</p>
+    </div>
+    <!-- Indicador de conexión: verde si la última petición funcionó, rojo si no. -->
+    <div class="conexion" id="conexion">
+      <span class="punto"></span>
+      <span id="conexion-texto">Conectando…</span>
+    </div>
+  </header>
+
+  <main class="tarjetas">
+    <!--
+      Cada tarjeta tiene un id en el valor y en la barra para que app.js pueda
+      encontrarlos y actualizarlos. Los valores empiezan en "—" hasta que llega
+      la primera respuesta de la API.
+    -->
+
+    <section class="tarjeta">
+      <h2>Batería</h2>
+      <p class="valor" id="bateria-valor">—</p>
+      <!-- role="progressbar" y aria-* ayudan a los lectores de pantalla. -->
+      <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="bateria-barra">
+        <div class="relleno"></div>
+      </div>
+      <p class="detalle" id="bateria-estado">—</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Memoria RAM</h2>
+      <p class="valor" id="ram-valor">—</p>
+      <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="ram-barra">
+        <div class="relleno"></div>
+      </div>
+      <p class="detalle" id="ram-detalle">—</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Disco (/)</h2>
+      <p class="valor" id="disco-valor">—</p>
+      <div class="barra" role="progressbar" aria-valuemin="0" aria-valuemax="100" id="disco-barra">
+        <div class="relleno"></div>
+      </div>
+      <p class="detalle" id="disco-detalle">—</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Temperatura CPU</h2>
+      <p class="valor" id="temp-valor">—</p>
+      <p class="detalle" id="temp-detalle">—</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Carga promedio</h2>
+      <p class="valor" id="carga-valor">—</p>
+      <p class="detalle" id="carga-detalle">—</p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Tiempo encendido</h2>
+      <p class="valor" id="uptime-valor">—</p>
+      <p class="detalle">Desde el último arranque</p>
+    </section>
+  </main>
+
+  <footer class="pie">
+    Última actualización: <span id="ultima-actualizacion">—</span> · se actualiza cada 5 s
+  </footer>
+
+  <!--
+    Cargamos el script al final del body para que, cuando se ejecute, todos los
+    elementos de arriba ya existan y getElementById los encuentre.
+  -->
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+/*
+  estilos.css — Aspecto visual del panel (tema oscuro).
+
+  Usamos "variables CSS" (las que empiezan por --) para definir los colores
+  una sola vez. Si mañana quieres cambiar el color de acento, lo cambias aquí
+  y se actualiza en toda la página.
+*/
+:root {
+  --fondo: #0f1117;
+  --tarjeta: #181b24;
+  --borde: #262a36;
+  --texto: #e6e8ee;
+  --texto-suave: #8b90a0;
+  --barra-fondo: #262a36;
+
+  /* Colores semáforo para las barras: verde = bien, ámbar = atención, rojo = peligro. */
+  --ok: #3ecf8e;
+  --aviso: #f5a524;
+  --peligro: #f25f5c;
+}
+
+/* box-sizing: border-box hace que el padding no "engorde" los elementos,
+   lo que facilita mucho calcular tamaños. Es una práctica muy común. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px 16px;
+  background: var(--fondo);
+  color: var(--texto);
+  /* system-ui usa la fuente nativa del sistema: se ve bien y no hay que descargar nada. */
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, sans-serif;
+  line-height: 1.4;
+}
+
+/* Limitamos el ancho para que en pantallas grandes no quede todo estirado. */
+.cabecera,
+.tarjetas,
+.pie {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* en móvil, el indicador baja a otra línea si no cabe */
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.subtitulo {
+  margin: 4px 0 0;
+  color: var(--texto-suave);
+}
+
+.conexion {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--borde);
+  border-radius: 999px; /* valor enorme = forma de "píldora" */
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+.punto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--texto-suave);
+}
+
+/* app.js añade estas clases según si la API respondió o no. */
+.conexion.ok .punto { background: var(--ok); }
+.conexion.error .punto { background: var(--peligro); }
+
+/*
+  CSS Grid con auto-fill + minmax: el navegador decide cuántas columnas caben.
+  En el móvil sale 1 columna, en una tablet 2, en un monitor 3... sin escribir
+  media queries. Es la forma más sencilla de hacer una cuadrícula adaptable.
+*/
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.tarjeta {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.tarjeta h2 {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--texto-suave);
+}
+
+.valor {
+  margin: 0 0 12px;
+  font-size: 2rem;
+  font-weight: 700;
+  /* tabular-nums: todos los dígitos ocupan lo mismo, así los números no
+     "bailan" de ancho cada vez que se actualizan. */
+  font-variant-numeric: tabular-nums;
+}
+
+.detalle {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  color: var(--texto-suave);
+}
+
+/* Barra de progreso: un contenedor gris y un "relleno" de color dentro.
+   app.js cambia el ancho (width) del relleno según el porcentaje. */
+.barra {
+  height: 10px;
+  background: var(--barra-fondo);
+  border-radius: 999px;
+  overflow: hidden; /* recorta el relleno para que respete las esquinas redondeadas */
+}
+
+.relleno {
+  height: 100%;
+  width: 0%;
+  background: var(--ok);
+  border-radius: 999px;
+  /* La transición anima el cambio de ancho y color: se ve más fluido. */
+  transition: width 0.6s ease, background-color 0.6s ease;
+}
+
+.relleno.aviso { background: var(--aviso); }
+.relleno.peligro { background: var(--peligro); }
+
+/* Cuando un dato no está disponible, lo mostramos atenuado. */
+.no-disponible {
+  color: var(--texto-suave);
+  font-size: 1.2rem;
+}
+
+.pie {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
