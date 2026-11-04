@@ -1,0 +1,4 @@
+# Las dependencias se reinstalan con "npm install"; no se suben al repositorio
+# porque pesan mucho y dependen del sistema donde se instalan.
+node_modules/
+npm-debug.log*
